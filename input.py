@@ -1,13 +1,10 @@
 import os
 import sys
 
-import matplotlib as mpl
-import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 from google.protobuf import text_format
 from six.moves import xrange
-from sklearn.decomposition import PCA
 
 # From lm_1b
 from lm_1b import data_utils
