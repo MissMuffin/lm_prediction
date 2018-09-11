@@ -7,7 +7,7 @@ from google.protobuf import text_format
 from six.moves import xrange
 
 # From lm_1b
-from lm_1b import data_utils
+from language_model.lm_1b import data_utils
 
 
 #-------------------------------------------------------------------------------
@@ -72,10 +72,10 @@ MAX_SAMPLE_WORDS = 100
 NUM_SAMPLES = 1
 
 # File Paths
-vocab_file = "../language_model_b1/data/vocab-2016-09-10.txt"
-save_dir   = "../language_model_b1/output"
-pbtxt      = "../language_model_b1/data/graph-2016-09-10.pbtxt"
-ckpt       = "../language_model_b1/data/ckpt-*"
+vocab_file = "./language_model/data/vocab-2016-09-10.txt"
+save_dir   = "./output"
+pbtxt      = "./language_model/data/graph-2016-09-10.pbtxt"
+ckpt       = "./language_model/data/ckpt-*"
 
 #Vocabulary containing character-level information.
 vocab = data_utils.CharsVocabulary(vocab_file, MAX_WORD_LEN)
