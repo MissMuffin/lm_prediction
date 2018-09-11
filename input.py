@@ -93,6 +93,42 @@ sess, t = LoadModel(pbtxt, ckpt)
 
 #-------------------------------------------------------------------------------
 
+def _DumpEmb(vocab):
+  """Dump the softmax weights and word embeddings to files.
+
+  Args:
+    vocab: Vocabulary. Contains vocabulary size and converts word to ids.
+  """
+  assert save_dir, 'Must specify FLAGS.save_dir for dump_emb.'
+  inputs = np.zeros([BATCH_SIZE, NUM_TIMESTEPS], np.int32)
+  targets = np.zeros([BATCH_SIZE, NUM_TIMESTEPS], np.int32)
+  weights = np.ones([BATCH_SIZE, NUM_TIMESTEPS], np.float32)
+
+  sess, t = LoadModel(pbtxt, ckpt)
+
+  softmax_weights = sess.run(t['softmax_weights'])
+  fname = save_dir + '/embeddings_softmax.npy'
+  with tf.gfile.Open(fname, mode='w') as f:
+    np.save(f, softmax_weights)
+  sys.stderr.write('Finished softmax weights\n')
+
+  all_embs = np.zeros([vocab.size, 1024])
+  for i in xrange(vocab.size):
+    input_dict = {t['inputs_in']: inputs,
+                  t['targets_in']: targets,
+                  t['target_weights_in']: weights}
+    if 'char_inputs_in' in t:
+      input_dict[t['char_inputs_in']] = (
+          vocab.word_char_ids[i].reshape([-1, 1, MAX_WORD_LEN]))
+    embs = sess.run(t['all_embs'], input_dict)
+    all_embs[i, :] = embs
+    sys.stderr.write('Finished word embedding %d/%d\n' % (i, vocab.size))
+
+  fname = save_dir + '/embeddings_char_cnn.npy'
+  with tf.gfile.Open(fname, mode='w') as f:
+    np.save(f, all_embs)
+  sys.stderr.write('Embedding file saved\n')
+
 def _SampleSoftmax(softmax):
   return min(np.sum(np.cumsum(softmax) < np.random.rand()), len(softmax) - 1)
 
@@ -152,3 +188,5 @@ def _SampleModel(prefix_words, vocab):
 # _SampleModel("About", vocab)
 # _SampleModel("We", vocab)
 # _SampleModel("It", vocab)
+
+_DumpEmb(vocab)
