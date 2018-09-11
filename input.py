@@ -77,13 +77,10 @@ save_dir   = "./output"
 pbtxt      = "./language_model/data/graph-2016-09-10.pbtxt"
 ckpt       = "./language_model/data/ckpt-*"
 
-#Vocabulary containing character-level information.
-vocab = data_utils.CharsVocabulary(vocab_file, MAX_WORD_LEN)
-
-targets  = np.zeros([BATCH_SIZE, NUM_TIMESTEPS], np.int32)
-weights  = np.ones([BATCH_SIZE, NUM_TIMESTEPS], np.float32)
-inputs   = np.zeros([BATCH_SIZE, NUM_TIMESTEPS], np.int32)
-char_ids_inputs = np.zeros([BATCH_SIZE, NUM_TIMESTEPS, vocab.max_word_length], np.int32)
+# targets  = np.zeros([BATCH_SIZE, NUM_TIMESTEPS], np.int32)
+# weights  = np.ones([BATCH_SIZE, NUM_TIMESTEPS], np.float32)
+# inputs   = np.zeros([BATCH_SIZE, NUM_TIMESTEPS], np.int32)
+# char_ids_inputs = np.zeros([BATCH_SIZE, NUM_TIMESTEPS, vocab.max_word_length], np.int32)
 
 # Recovers the model from protobuf
 # sess, t = LoadModel(pbtxt, ckpt)
@@ -96,7 +93,6 @@ def _DumpEmb(vocab):
   Args:
     vocab: Vocabulary. Contains vocabulary size and converts word to ids.
   """
-  assert save_dir, 'Must specify FLAGS.save_dir for dump_emb.'
   inputs = np.zeros([BATCH_SIZE, NUM_TIMESTEPS], np.int32)
   targets = np.zeros([BATCH_SIZE, NUM_TIMESTEPS], np.int32)
   weights = np.ones([BATCH_SIZE, NUM_TIMESTEPS], np.float32)
@@ -179,6 +175,9 @@ def _SampleModel(prefix_words, vocab):
         if (vocab.id_to_word(samples[0]) == '</S>' or
             len(sent) > MAX_SAMPLE_WORDS):
             break 
+
+#Vocabulary containing character-level information.
+vocab = data_utils.CharsVocabulary(vocab_file, MAX_WORD_LEN)
 
 # _SampleModel("With", vocab)
 # _SampleModel("Check", vocab)
