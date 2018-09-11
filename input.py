@@ -72,7 +72,7 @@ FLAGS
 # Sampling stops either when </S> is met or this number of steps has passed.
 MAX_SAMPLE_WORDS = 100
 # Number of samples to generate for the prefix.
-NUM_SAMPLES = 3
+NUM_SAMPLES = 1
 
 # File Paths
 vocab_file = "../language_model_b1/data/vocab-2016-09-10.txt"
@@ -115,36 +115,40 @@ def _SampleModel(prefix_words, vocab):
 
   prefix = [vocab.word_to_id(w) for w in prefix_words.split()]
   prefix_char_ids = [vocab.word_to_char_ids(w) for w in prefix_words.split()]
+
   for _ in xrange(NUM_SAMPLES):
     inputs = np.zeros([BATCH_SIZE, NUM_TIMESTEPS], np.int32)
-    char_ids_inputs = np.zeros(
-        [BATCH_SIZE, NUM_TIMESTEPS, vocab.max_word_length], np.int32)
+    char_ids_inputs = np.zeros([BATCH_SIZE, NUM_TIMESTEPS, vocab.max_word_length], np.int32)
     samples = prefix[:]
     char_ids_samples = prefix_char_ids[:]
     sent = ''
     while True:
-      inputs[0, 0] = samples[0]
-      char_ids_inputs[0, 0, :] = char_ids_samples[0]
-      samples = samples[1:]
-      char_ids_samples = char_ids_samples[1:]
+        inputs[0, 0] = samples[0]
+        char_ids_inputs[0, 0, :] = char_ids_samples[0]
+        samples = samples[1:]
+        char_ids_samples = char_ids_samples[1:]
 
-      softmax = sess.run(t['softmax_out'],
-                         feed_dict={t['char_inputs_in']: char_ids_inputs,
-                                    t['inputs_in']: inputs,
-                                    t['targets_in']: targets,
-                                    t['target_weights_in']: weights})
+        softmax = sess.run(t['softmax_out'],
+                            feed_dict={t['char_inputs_in']: char_ids_inputs,
+                                        t['inputs_in']: inputs,
+                                        t['targets_in']: targets,
+                                        t['target_weights_in']: weights})
 
-      sample = _SampleSoftmax(softmax[0])
-      sample_char_ids = vocab.word_to_char_ids(vocab.id_to_word(sample))
+        sample = _SampleSoftmax(softmax[0])
+        sample_char_ids = vocab.word_to_char_ids(vocab.id_to_word(sample))
 
-      if not samples:
-        samples = [sample]
-        char_ids_samples = [sample_char_ids]
-      sent += vocab.id_to_word(samples[0]) + ' '
-      sys.stderr.write('%s\n' % sent)
+        if not samples:
+            samples = [sample]
+            char_ids_samples = [sample_char_ids]
+        sent += vocab.id_to_word(samples[0]) + ' '
+        sys.stderr.write('%s\n' % sent)
 
-      if (vocab.id_to_word(samples[0]) == '</S>' or
-          len(sent) > MAX_SAMPLE_WORDS):
-        break
+        if (vocab.id_to_word(samples[0]) == '</S>' or
+            len(sent) > MAX_SAMPLE_WORDS):
+            break 
 
-_SampleModel("I love that I", vocab)
+# _SampleModel("With", vocab)
+# _SampleModel("Check", vocab)
+# _SampleModel("About", vocab)
+# _SampleModel("We", vocab)
+# _SampleModel("It", vocab)
