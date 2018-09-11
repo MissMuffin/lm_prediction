@@ -89,7 +89,7 @@ inputs   = np.zeros([BATCH_SIZE, NUM_TIMESTEPS], np.int32)
 char_ids_inputs = np.zeros([BATCH_SIZE, NUM_TIMESTEPS, vocab.max_word_length], np.int32)
 
 # Recovers the model from protobuf
-sess, t = LoadModel(pbtxt, ckpt)
+# sess, t = LoadModel(pbtxt, ckpt)
 
 #-------------------------------------------------------------------------------
 
