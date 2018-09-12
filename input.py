@@ -118,7 +118,9 @@ def _DumpEmb(vocab):
     embs = sess.run(t['all_embs'], input_dict)
 
     all_embs[i, :] = embs
-    sys.stderr.write('Finished word embedding %d/%d\n' % (i, vocab.size))
+    if i % 100 == 0:
+      sys.stderr.write('Finished word embedding %d/%d\n' % (i+1, vocab.size))
+  print("Finished all", len(approved_vocab), "word embeddings")
     
   fname = save_dir + '/embeddings_char_cnn.npy'
   with tf.gfile.Open(fname, mode='w') as f:
