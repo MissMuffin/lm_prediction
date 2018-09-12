@@ -109,20 +109,18 @@ def _DumpEmb(vocab):
   all_embs = np.zeros([len(approved_vocab_ids), 1024])
   
   print("Starting to collect ",len(approved_vocab_ids), " word embeddings..." )
-  counter = 0
-  for i in approved_vocab_ids:
+  for i, word_id in enumerate(approved_vocab_ids):  
     input_dict = {t['inputs_in']: inputs,
                   t['targets_in']: targets,
                   t['target_weights_in']: weights}
     if 'char_inputs_in' in t:
-      input_dict[t['char_inputs_in']] = (vocab.word_char_ids[i].reshape([-1, 1, MAX_WORD_LEN]))
+      input_dict[t['char_inputs_in']] = (vocab.word_char_ids[word_id].reshape([-1, 1, MAX_WORD_LEN]))
 
     embs = sess.run(t['all_embs'], input_dict)
-
     all_embs[i, :] = embs
-    if (counter+1) % 100 == 0:
-      print('Finished word embedding %d/%d - index[%d] %s' % (counter+1, vocab.size, counter, vocab.id_to_word(i)))
-    counter += 1
+    
+    if (i+1) % 100 == 0:
+      print('Finished word embedding %d/%d - index[%d] %s' % (i+1, vocab.size, i, vocab.id_to_word(word_id)))
   print("Finished all", len(approved_vocab_ids), "word embeddings")
     
   fname = save_dir + '/embeddings_char_cnn.npy'
