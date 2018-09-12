@@ -105,23 +105,37 @@ def _DumpEmb(vocab):
     np.save(f, softmax_weights)
   sys.stderr.write('Finished softmax weights\n')
 
-  all_embs = np.zeros([vocab.size, 1024])
-  for i in xrange(vocab.size):
+  approved_vocab = remove_non_ascii_tokens(vocab)
+  all_embs = np.zeros([len(approved_vocab), 1024])
+  
+  for i in approved_vocab:
     input_dict = {t['inputs_in']: inputs,
                   t['targets_in']: targets,
                   t['target_weights_in']: weights}
     if 'char_inputs_in' in t:
-      input_dict[t['char_inputs_in']] = (
-          vocab.word_char_ids[i].reshape([-1, 1, MAX_WORD_LEN]))
+      input_dict[t['char_inputs_in']] = (vocab.word_char_ids[i].reshape([-1, 1, MAX_WORD_LEN]))
+
     embs = sess.run(t['all_embs'], input_dict)
+
     all_embs[i, :] = embs
     sys.stderr.write('Finished word embedding %d/%d\n' % (i, vocab.size))
-
+    
   fname = save_dir + '/embeddings_char_cnn.npy'
   with tf.gfile.Open(fname, mode='w') as f:
     np.save(f, all_embs)
   sys.stderr.write('Embedding file saved\n')
 
+def remove_non_ascii_tokens(vocab):
+  approved_tokens = []
+  for i in range(vocab.size):
+    token = vocab.id_to_word(i)
+    try: 
+      token.encode('ascii')
+      approved_tokens.append(i) 
+    except UnicodeEncodeError: 
+      continue
+  return approved_tokens
+    
 def _SampleSoftmax(softmax):
   return min(np.sum(np.cumsum(softmax) < np.random.rand()), len(softmax) - 1)
 
