@@ -105,10 +105,12 @@ def _DumpEmb(vocab):
     np.save(f, softmax_weights)
   sys.stderr.write('Finished softmax weights\n')
 
-  approved_vocab = remove_non_ascii_tokens(vocab)
-  all_embs = np.zeros([len(approved_vocab), 1024])
+  approved_vocab_ids = build_filtered_vocab(vocab)
+  all_embs = np.zeros([len(approved_vocab_ids), 1024])
   
-  for i in approved_vocab:
+  print("Starting to collect ",len(approved_vocab_ids), " word embeddings..." )
+  counter = 0
+  for i in approved_vocab_ids:
     input_dict = {t['inputs_in']: inputs,
                   t['targets_in']: targets,
                   t['target_weights_in']: weights}
@@ -118,9 +120,10 @@ def _DumpEmb(vocab):
     embs = sess.run(t['all_embs'], input_dict)
 
     all_embs[i, :] = embs
-    if i % 100 == 0:
-      sys.stderr.write('Finished word embedding %d/%d\n' % (i+1, vocab.size))
-  print("Finished all", len(approved_vocab), "word embeddings")
+    if (counter+1) % 100 == 0:
+      print('Finished word embedding %d/%d - index[%d] %s' % (counter+1, vocab.size, counter, vocab.id_to_word(i)))
+    counter += 1
+  print("Finished all", len(approved_vocab_ids), "word embeddings")
     
   fname = save_dir + '/embeddings_char_cnn.npy'
   with tf.gfile.Open(fname, mode='w') as f:
@@ -128,15 +131,30 @@ def _DumpEmb(vocab):
   sys.stderr.write('Embedding file saved\n')
 
 def remove_non_ascii_tokens(vocab):
-  approved_tokens = []
+  filtered_vocab = []
+  filtered_vocab_ids = []
+
   for i in range(vocab.size):
     token = vocab.id_to_word(i)
     try: 
       token.encode('ascii')
-      approved_tokens.append(i) 
+      filtered_vocab_ids.append(i)
+      filtered_vocab.append(token) 
     except UnicodeEncodeError: 
       continue
-  return approved_tokens
+  return filtered_vocab_ids, filtered_vocab
+
+def build_filtered_vocab(vocab):
+  print("Building filtered vocab...")
+  filename = "./output/filtered_vocab.txt"
+  filtered_vocab_ids, filtered_vocab = remove_non_ascii_tokens(vocab)
+  
+  print("Writing filtered vocab in {}...".format(filename))
+  with open(filename, "w") as f:
+      f.write("\n".join(filtered_vocab))
+  print("- done. Wrote {} tokens".format(len(filtered_vocab)))
+  return filtered_vocab_ids
+
     
 def _SampleSoftmax(softmax):
   return min(np.sum(np.cumsum(softmax) < np.random.rand()), len(softmax) - 1)
