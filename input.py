@@ -103,7 +103,7 @@ def _DumpEmb(vocab):
   fname = save_dir + '/embeddings_softmax.npy'
   with tf.gfile.Open(fname, mode='w') as f:
     np.save(f, softmax_weights)
-  sys.stderr.write('Finished softmax weights\n')
+  print('Finished writing softmax weights to file.')
 
   approved_vocab_ids = build_filtered_vocab(vocab)
   all_embs = np.zeros([len(approved_vocab_ids), 1024])
@@ -120,13 +120,13 @@ def _DumpEmb(vocab):
     all_embs[i, :] = embs
     
     if (i+1) % 100 == 0:
-      print('Finished word embedding %d/%d - index[%d] %s' % (i+1, vocab.size, i, vocab.id_to_word(word_id)))
+      print('Finished word embedding %d/%d - index[%d] %s' % (i+1, len(approved_vocab_ids), i, vocab.id_to_word(word_id)))
   print("Finished all", len(approved_vocab_ids), "word embeddings")
     
   fname = save_dir + '/embeddings_char_cnn.npy'
   with tf.gfile.Open(fname, mode='w') as f:
     np.save(f, all_embs)
-  sys.stderr.write('Embedding file saved\n')
+  print('Embedding file saved.')
 
 def remove_non_ascii_tokens(vocab):
   filtered_vocab = []
