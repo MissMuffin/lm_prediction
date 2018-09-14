@@ -126,10 +126,9 @@ def dump_lm(vocab, vocab_length=-1, dump_as_txt=False, dump_softmax=False, print
 
 def dump_softmax(sess, t, weights):
     softmax_weights = sess.run(t['softmax_weights'])
-    fname = Config.save_dir + '/embeddings_softmax.npy'
-    with tf.gfile.Open(fname, mode='w') as f:
-        np.save(f, softmax_weights)
-    print('Finished writing softmax weights to file.')
+    np.save(Config.filename_softmax, softmax_weights)
+    print('Finished writing softmax to npy file.')
+
 
 
 # Vocabulary containing character-level information.
