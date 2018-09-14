@@ -114,15 +114,13 @@ def dump_lm(vocab, vocab_length=-1, dump_as_txt=False, dump_softmax=False, print
 
     print("Finished all", len(vocab_ids), "word embeddings")
 
-    # write embeddings to npy file
-    with tf.gfile.Open(filename_emb_npy, mode='w') as f:
-        np.save(f, all_embs)
+    # write embeddings to compressed npz file
+    np.savez_compressed(filename_emb_npy, embeddings=all_embs)
     print('Embeddings saved to npy file.')
 
     # write embeddings to txt file
     if dump_as_txt:
-        with tf.gfile.Open(filename_emb_text, mode='w') as f:
-            np.savetxt(f, all_embs)
+        np.savetxt(filename_emb_text, all_embs)
         print('Embeddings saved to txt file.')
 
 
@@ -137,4 +135,4 @@ def dump_softmax(sess, t, weights):
 # Vocabulary containing character-level information.
 vocab = data_utils.CharsVocabulary(Config.vocab_file, Config.MAX_WORD_LEN)
 
-dump_lm(vocab, 10, dump_as_txt=True, dump_softmax=False)
+dump_lm(vocab, 50, dump_as_txt=True, dump_softmax=False)
