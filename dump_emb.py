@@ -164,7 +164,20 @@ dump_lm(vocab,
         dump_softmax=False, 
         print_emb_status_every=6)
 
+# build embedding with 300 dim
 build_trimmed_emb(load_vocab(Config.filename_vocab_short),
                   file_emb=Config.filename_emb_short.format(1024),
                   file_trimmed=Config.filename_emb_trimmed_short,
                   dim=300)
+
+# build embedding with 600 dim
+build_trimmed_emb(load_vocab(Config.filename_vocab_short),
+                  file_emb=Config.filename_emb_short.format(1024),
+                  file_trimmed=Config.filename_emb_trimmed_short,
+                  dim=600)
+
+# build embedding with 1024 dim
+build_trimmed_emb(load_vocab(Config.filename_vocab_short),
+                  file_emb=Config.filename_emb_short.format(1024),
+                  file_trimmed=Config.filename_emb_trimmed_short,
+                  dim=1024)
