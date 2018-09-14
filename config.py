@@ -29,10 +29,10 @@ class Config:
     filename_emb_trimmed = save_dir + "/lm1b_emb_trimmed_d{}.npz"
     filename_emb_text = save_dir + "/lm1b_emb_d{}.txt"
 
-    filename_softmax = save_dir + "/lm1b_softamx.npy"
-
     ### shortened for testing on laptop    
     filename_vocab_short = save_dir + "/lm1b_vocab_short.txt"
     filename_emb_short = save_dir + "/lm1b_emb_d{}_short.npy"
     filename_emb_trimmed_short = save_dir + "/lm1b_emb_trimmed_d{}_short.npz"
     filename_emb_text_short = save_dir + "/lm1b_emb_d{}_short.txt"
+
+    filename_softmax = save_dir + "/lm1b_softmax.npy"
