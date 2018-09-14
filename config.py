@@ -19,6 +19,9 @@ class Config:
     pbtxt      = "./language_model/data/graph-2016-09-10.pbtxt"
     ckpt       = "./language_model/data/ckpt-*"
 
+    # embeddings dimension size
+    emb_dim = 1024
+
     ## output
     ## (this ouput has non ASCII char filtered from original lm1b)
     filename_vocab = save_dir + "/lm1b_vocab.txt"

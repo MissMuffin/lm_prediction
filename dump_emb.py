@@ -70,7 +70,7 @@ def dump_lm(vocab, vocab_length=-1, dump_as_txt=False, dump_softmax=False, print
 
     sess, t = LoadModel(Config.pbtxt, Config.ckpt)
 
-    dim=1024
+    dim = Config.emb_dim
 
     # dump softmax to file
     if dump_softmax:
@@ -92,7 +92,7 @@ def dump_lm(vocab, vocab_length=-1, dump_as_txt=False, dump_softmax=False, print
         filename_emb_text = Config.filename_emb_text.format(dim)
 
     # init embeddings tensor
-    all_embs = np.zeros([len(vocab_ids), 1024])
+    all_embs = np.zeros([len(vocab_ids), dim])
 
     # collect embeddings tensor for each token in vocab
     print("Starting to collect ", len(vocab_ids), " word embeddings...")
@@ -135,4 +135,8 @@ def dump_softmax(sess, t, weights):
 # Vocabulary containing character-level information.
 vocab = data_utils.CharsVocabulary(Config.vocab_file, Config.MAX_WORD_LEN)
 
-dump_lm(vocab, 50, dump_as_txt=True, dump_softmax=False)
+dump_lm(vocab, 
+        vocab_length=10, 
+        dump_as_txt=True,
+        dump_softmax=False, 
+        print_emb_status_every=6)
