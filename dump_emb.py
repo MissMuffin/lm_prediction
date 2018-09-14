@@ -51,7 +51,7 @@ def build_filtered_vocab(vocab, vocab_length=-1):
     return filtered_vocab_ids
 
 
-def dump_lm(vocab, vocab_length=-1, dump_as_txt=False, dump_softmax=False, print_emb_status_every=100):
+def dump_lm(vocab, vocab_length=-1, dump_as_txt=False, write_softmax=False, print_emb_status_every=100):
 
     '''
     Save softmax, fitlered vocab and embeddings to file 
@@ -73,7 +73,7 @@ def dump_lm(vocab, vocab_length=-1, dump_as_txt=False, dump_softmax=False, print
     dim = Config.emb_dim
 
     # dump softmax to file
-    if dump_softmax:
+    if write_softmax:
         dump_softmax(sess, t, weights)
 
     # create filtered vocab
@@ -161,8 +161,8 @@ vocab = data_utils.CharsVocabulary(Config.vocab_file, Config.MAX_WORD_LEN)
 dump_lm(vocab, 
         vocab_length=10, 
         dump_as_txt=True,
-        dump_softmax=False, 
-        print_emb_status_every=6)
+        write_softmax=True, 
+        print_emb_status_every=1)
 
 # build embedding with 300 dim
 build_trimmed_emb(load_vocab(Config.filename_vocab_short),
