@@ -132,8 +132,34 @@ def dump_softmax(sess, t, weights):
 # Vocabulary containing character-level information.
 vocab = data_utils.CharsVocabulary(Config.file_lm_vocab, Config.MAX_WORD_LEN)
 
+<<<<<<< b3e839102a68ac3d2bd868624648d8e32d8aa4bc
 dump_lm(vocab, 
         vocab_length=10, 
         dump_as_txt=True,
         write_softmax=True, 
         print_emb_status_every=1)
+=======
+# dump_lm(vocab, 
+#         vocab_length=-1, 
+#         dump_as_txt=True,
+#         write_softmax=True, 
+#         print_emb_status_every=10000)
+
+# build embedding with 300 dim
+build_trimmed_emb(load_vocab(Config.filename_vocab),
+                  file_emb=Config.filename_emb.format(1024),
+                  file_trimmed=Config.filename_emb_trimmed,
+                  dim=300)
+
+# build embedding with 600 dim
+build_trimmed_emb(load_vocab(Config.filename_vocab),
+                  file_emb=Config.filename_emb.format(1024),
+                  file_trimmed=Config.filename_emb_trimmed,
+                  dim=600)
+
+# build embedding with 1024 dim
+build_trimmed_emb(load_vocab(Config.filename_vocab),
+                  file_emb=Config.filename_emb.format(1024),
+                  file_trimmed=Config.filename_emb_trimmed,
+                  dim=1024)
+>>>>>>> adjusted for running on gpu cluster
