@@ -29,7 +29,7 @@ def build_trimmed_emb(lm_vocab, conll_vocab, file_emb, file_trimmed, dim_in, dim
             pos_lm = lm_vocab[token]
         elif token in conll_vocab:
             pos_conll = conll_vocab[token]
-            pos_lm = lm_vocab[token]
+            pos_lm = lm_vocab[token] 
         else:
             continue
 
@@ -60,7 +60,7 @@ def export_reduced_embeddings(file_emb, file_reduced, dim):
 
 
 # build embedding with 1024 dim
-build_trimmed_emb(lm_vocab=load_vocab(Config.file_lm_vocab),
+build_trimmed_emb(lm_vocab=load_vocab(Config.filename_vocab),
                   conll_vocab=load_vocab(Config.file_conll_vocab),
                   file_emb=Config.filename_emb.format(1024),
                   file_trimmed=Config.filename_emb_trimmed,
