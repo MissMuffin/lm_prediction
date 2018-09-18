@@ -60,34 +60,34 @@ def export_reduced_embeddings(file_emb, file_reduced, dim):
 
 
 # build embedding with 1024 dim
-# build_trimmed_emb(lm_vocab=load_vocab(Config.filename_vocab),
-#                   conll_vocab=load_vocab(Config.file_conll_vocab),
-#                   file_emb=Config.filename_emb.format(1024),
-#                   file_trimmed=Config.filename_emb_trimmed,
-#                   dim_in=1024,
-#                   dim_out=-1)
+build_trimmed_emb(lm_vocab=load_vocab(Config.filename_vocab),
+                  conll_vocab=load_vocab(Config.file_conll_vocab),
+                  file_emb=Config.filename_emb.format(1024),
+                  file_trimmed=Config.filename_emb_trimmed,
+                  dim_in=1024,
+                  dim_out=-1)
 
-# d = 50
-# export_reduced_embeddings(file_emb=Config.filename_emb_trimmed.format(1024),
-#                           file_reduced=Config.filename_emb_trimmed.format(d),
-#                           dim=d)
+d = 50
+export_reduced_embeddings(file_emb=Config.filename_emb_trimmed.format(1024),
+                          file_reduced=Config.filename_emb_trimmed.format(d),
+                          dim=d)
 
-# d = 100
-# export_reduced_embeddings(file_emb=Config.filename_emb_trimmed.format(1024),
-#                           file_reduced=Config.filename_emb_trimmed.format(d),
-#                           dim=d)
-
-# d = 300
-# export_reduced_embeddings(file_emb=Config.filename_emb_trimmed.format(1024),
-#                           file_reduced=Config.filename_emb_trimmed.format(d),
-#                           dim=d)
-
-# d = 1024
-# export_reduced_embeddings(file_emb=Config.filename_emb_trimmed.format(1024),
-#                           file_reduced=Config.filename_emb_trimmed.format(d),
-#                           dim=d)
+d = 100
+export_reduced_embeddings(file_emb=Config.filename_emb_trimmed.format(1024),
+                          file_reduced=Config.filename_emb_trimmed.format(d),
+                          dim=d)
 
 d = 200
+export_reduced_embeddings(file_emb=Config.filename_emb_trimmed.format(1024),
+                          file_reduced=Config.filename_emb_trimmed.format(d),
+                          dim=d)
+
+d = 300
+export_reduced_embeddings(file_emb=Config.filename_emb_trimmed.format(1024),
+                          file_reduced=Config.filename_emb_trimmed.format(d),
+                          dim=d)
+
+d = 1024
 export_reduced_embeddings(file_emb=Config.filename_emb_trimmed.format(1024),
                           file_reduced=Config.filename_emb_trimmed.format(d),
                           dim=d)
