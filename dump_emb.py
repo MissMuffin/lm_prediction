@@ -88,8 +88,8 @@ def dump_lm(vocab, vocab_length=-1, dump_as_txt=False, write_softmax=False, prin
         filename_emb_npy = Config.filename_emb_short.format(dim)
         filename_emb_text = Config.filename_emb_text_short.format(dim)
     else:
-        filename_emb_npy = Config.filename_emb.format(dim)
-        filename_emb_text = Config.filename_emb_text.format(dim)
+        filename_emb_npy = Config.filename_emb_full
+        filename_emb_text = Config.filename_emb_text_full
 
     # init embeddings tensor
     all_embs = np.zeros([len(vocab_ids), dim])

@@ -29,8 +29,10 @@ class Config:
     ## (this ouput has non ASCII char filtered from original lm1b)
     filename_vocab = save_dir + "/lm1b_vocab.txt"
     filename_emb = save_dir + "/lm1b_emb_d{}.npy"
+    filename_emb_full = save_dir + "/lm1b_embeddings_full.npy"
     filename_emb_trimmed = save_dir + "/lm1b_emb_trimmed_d{}.npz"
     filename_emb_text = save_dir + "/lm1b_emb_d{}.txt"
+    filename_emb_text_full = save_dir + "/lm1b_emb_full.txt"
 
     ### shortened for testing on laptop    
     filename_vocab_short = save_dir + "/lm1b_vocab_short.txt"
