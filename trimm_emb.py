@@ -41,7 +41,7 @@ def build_trimmed_emb(lm_vocab, conll_vocab, file_emb, file_trimmed, dim_in, dim
 
     # save as compressed npz
     d = dim_in if dim_out == -1 else dim_out
-    np.savez_compressed(file_trimmed.format(d), embeddings=embeddings)
+    np.savez_compressed(file_trimmed.format(d), embeddings=trimmed_emb)
     print("Done. Saved file to", file_trimmed.format(d))
 
 
