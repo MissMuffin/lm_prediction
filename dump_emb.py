@@ -156,7 +156,7 @@ def build_trimmed_emb(vocab, file_emb, file_trimmed, dim):
 
 
 # Vocabulary containing character-level information.
-vocab = data_utils.CharsVocabulary(Config.vocab_file, Config.MAX_WORD_LEN)
+vocab = data_utils.CharsVocabulary(Config.file_lm_vocab, Config.MAX_WORD_LEN)
 
 dump_lm(vocab, 
         vocab_length=10, 

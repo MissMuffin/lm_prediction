@@ -6,6 +6,8 @@ class Config:
     NUM_TIMESTEPS = 1
     MAX_WORD_LEN = 50
 
+    UNK = "<UNK>"
+
     # Sampling stops either when </S> is met or this number of steps has passed.
     MAX_SAMPLE_WORDS = 100
 
@@ -14,7 +16,8 @@ class Config:
 
     # File Paths
     ## language model input
-    vocab_file = "./language_model/data/vocab-2016-09-10.txt"
+    file_lm_vocab = "./language_model/data/vocab-2016-09-10.txt"
+    file_conll_vocab = "./vocab_conll.txt"
     save_dir   = "./output"
     pbtxt      = "./language_model/data/graph-2016-09-10.pbtxt"
     ckpt       = "./language_model/data/ckpt-*"

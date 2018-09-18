@@ -59,7 +59,7 @@ def _SampleModel(prefix_words, vocab):
             break 
 
 # Vocabulary containing character-level information.
-vocab = data_utils.CharsVocabulary(Config.vocab_file, Config.MAX_WORD_LEN)
+vocab = data_utils.CharsVocabulary(Config.file_lm_vocab, Config.MAX_WORD_LEN)
 
 _SampleModel("With", vocab)
 # _SampleModel("Check", vocab)
