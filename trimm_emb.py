@@ -56,7 +56,7 @@ def reduce_dimens(dim, embeddings):
 def export_reduced_embeddings(file_emb, file_reduced, dim):
     embeddings = np.load(file_emb)["embeddings"]
     embeddings_reduced = reduce_dimens(dim, embeddings)
-    np.savez_compressed(embeddings_reduced)
+    np.savez_compressed(embeddings_reduced, embeddings=embeddings_reduced)
 
 
 # build embedding with 1024 dim
