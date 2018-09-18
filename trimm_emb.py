@@ -30,6 +30,8 @@ def build_trimmed_emb(lm_vocab, conll_vocab, file_emb, file_trimmed, dim_in, dim
         elif token in conll_vocab:
             pos_conll = conll_vocab[token]
             pos_lm = lm_vocab[token]
+        else:
+            continue
 
         trimmed_emb[pos_conll] = embeddings[pos_lm]
 
