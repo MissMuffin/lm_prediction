@@ -129,32 +129,6 @@ def dump_softmax(sess, t, weights):
     np.save(Config.filename_softmax, softmax_weights)
     print('Finished writing softmax to npy file.')
 
-
-def load_vocab(file_vocab):
-    try:
-        with open(file_vocab) as f:
-            return {word.strip(): idx for idx, word in enumerate(f)}
-    except IOError:
-        print("Unable to load vocab from file ", file_vocab)
-
-
-def build_trimmed_emb(vocab, file_emb, file_trimmed, dim):
-
-    print("Writing embeddings as compressed npz with {} embedding dimensions...".format(dim))
-
-    # load npy
-    embeddings = np.load(file_emb)
-    print("input dimensions:", embeddings.shape)
-
-    # adjust embedding dimensions by slicing
-    embeddings = embeddings[:,:dim]
-    print("output dimensions:", embeddings.shape)
-
-    # save as compressed npz
-    np.savez_compressed(file_trimmed.format(dim), embeddings=embeddings)
-    print("Done. Saved file to", file_trimmed.format(dim))
-
-
 # Vocabulary containing character-level information.
 vocab = data_utils.CharsVocabulary(Config.file_lm_vocab, Config.MAX_WORD_LEN)
 
@@ -163,21 +137,3 @@ dump_lm(vocab,
         dump_as_txt=True,
         write_softmax=True, 
         print_emb_status_every=1)
-
-# build embedding with 300 dim
-build_trimmed_emb(load_vocab(Config.filename_vocab_short),
-                  file_emb=Config.filename_emb_short.format(1024),
-                  file_trimmed=Config.filename_emb_trimmed_short,
-                  dim=300)
-
-# build embedding with 600 dim
-build_trimmed_emb(load_vocab(Config.filename_vocab_short),
-                  file_emb=Config.filename_emb_short.format(1024),
-                  file_trimmed=Config.filename_emb_trimmed_short,
-                  dim=600)
-
-# build embedding with 1024 dim
-build_trimmed_emb(load_vocab(Config.filename_vocab_short),
-                  file_emb=Config.filename_emb_short.format(1024),
-                  file_trimmed=Config.filename_emb_trimmed_short,
-                  dim=1024)
