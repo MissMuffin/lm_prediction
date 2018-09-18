@@ -13,8 +13,8 @@ def load_vocab(file_vocab):
         print("Unable to load vocab from file ", file_vocab)
 
 
-def build_trimmed_emb(lm_vocab, conll_vocab, file_emb, file_trimmed, dim_in, dim_out=-1):
-    print("Writing embeddings as compressed npz with {} embedding dimensions...".format(dim_out))
+def build_trimmed_emb(lm_vocab, conll_vocab, file_emb, file_trimmed, dim_in):
+    print("Writing embeddings as compressed npz...")
 
     # load npy
     embeddings = np.load(file_emb)
@@ -35,14 +35,9 @@ def build_trimmed_emb(lm_vocab, conll_vocab, file_emb, file_trimmed, dim_in, dim
 
         trimmed_emb[pos_conll] = embeddings[pos_lm]
 
-    # do pca
-    if dim_out != -1:
-        trimmed_emb = reduce_dimens(dim_out, trimmed_emb)
-
     # save as compressed npz
-    d = dim_in if dim_out == -1 else dim_out
-    np.savez_compressed(file_trimmed.format(d), embeddings=trimmed_emb)
-    print("Done. Saved file to", file_trimmed.format(d))
+    np.savez_compressed(file_trimmed, embeddings=trimmed_emb)
+    print("Done. Saved file to", file_trimmed)
 
 
 def reduce_dimens(dim, embeddings):
@@ -64,30 +59,29 @@ build_trimmed_emb(lm_vocab=load_vocab(Config.filename_vocab),
                   conll_vocab=load_vocab(Config.file_conll_vocab),
                   file_emb=Config.filename_emb_full,
                   file_trimmed=Config.filename_emb_trimmed,
-                  dim_in=1024,
-                  dim_out=-1)
+                  dim_in=1024)
 
 d = 50
-export_reduced_embeddings(file_emb=Config.filename_emb_full,
-                          file_reduced=Config.filename_emb_trimmed.format(d),
+export_reduced_embeddings(file_emb=Config.filename_emb_trimmed,
+                          file_reduced=Config.filename_emb_reduced.format(d),
                           dim=d)
 
 d = 100
-export_reduced_embeddings(file_emb=Config.filename_emb_full,
-                          file_reduced=Config.filename_emb_trimmed.format(d),
+export_reduced_embeddings(file_emb=Config.filename_emb_trimmed,
+                          file_reduced=Config.filename_emb_reduced.format(d),
                           dim=d)
 
 d = 200
-export_reduced_embeddings(file_emb=Config.filename_emb_full,
-                          file_reduced=Config.filename_emb_trimmed.format(d),
+export_reduced_embeddings(file_emb=Config.filename_emb_trimmed,
+                          file_reduced=Config.filename_emb_reduced.format(d),
                           dim=d)
 
 d = 300
-export_reduced_embeddings(file_emb=Config.filename_emb_full,
-                          file_reduced=Config.filename_emb_trimmed.format(d),
+export_reduced_embeddings(file_emb=Config.filename_emb_trimmed,
+                          file_reduced=Config.filename_emb_reduced.format(d),
                           dim=d)
 
 d = 1024
-export_reduced_embeddings(file_emb=Config.filename_emb_full,
-                          file_reduced=Config.filename_emb_trimmed.format(d),
+export_reduced_embeddings(file_emb=Config.filename_emb_trimmed,
+                          file_reduced=Config.filename_emb_reduced.format(d),
                           dim=d)
