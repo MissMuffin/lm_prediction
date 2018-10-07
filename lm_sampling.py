@@ -62,7 +62,13 @@ def _SampleModel(prefix_words, vocab):
 vocab = data_utils.CharsVocabulary(Config.file_lm_vocab, Config.MAX_WORD_LEN)
 
 _SampleModel("With", vocab)
-# _SampleModel("Check", vocab)
-# _SampleModel("About", vocab)
-# _SampleModel("We", vocab)
-# _SampleModel("It", vocab)
+_SampleModel("Check", vocab)
+_SampleModel("About", vocab)
+_SampleModel("We", vocab)
+_SampleModel("We", vocab)
+_SampleModel("It", vocab)
+
+_SampleModel(" With even more new technologies", vocab)
+_SampleModel("Check back for", vocab)
+_SampleModel("We are aware of", vocab)
+

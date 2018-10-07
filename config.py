@@ -12,7 +12,7 @@ class Config:
     MAX_SAMPLE_WORDS = 100
 
     # Number of tokens to generate for the input prefix.
-    NUM_SAMPLES = 1
+    NUM_SAMPLES = 10
 
     # File Paths
     ## language model input
