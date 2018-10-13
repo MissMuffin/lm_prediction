@@ -4,7 +4,7 @@ class Config:
     # For saving demo resources, use batch size 1 and step 1.
     BATCH_SIZE = 1
     NUM_TIMESTEPS = 1
-    MAX_WORD_LEN = 50
+    MAX_WORD_LEN = 200
 
     UNK = "<UNK>"
 
@@ -12,7 +12,7 @@ class Config:
     MAX_SAMPLE_WORDS = 100
 
     # Number of tokens to generate for the input prefix.
-    NUM_SAMPLES = 10
+    NUM_SAMPLES = 3
 
     # File Paths
     ## language model input
